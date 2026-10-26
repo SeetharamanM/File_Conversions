@@ -27,6 +27,30 @@ pip install -r requirements.txt
 python app.py            # http://localhost:5000  (PORT, MAX_UPLOAD_MB env vars)
 ```
 
+## Deploy
+
+The app ships with a `Dockerfile` (Python + LibreOffice + gunicorn) and a `Procfile`.
+Use Docker-based hosting if you want `.doc` support and high-fidelity PDFs.
+
+**Docker (any server / VPS)**
+```bash
+docker build -t file-converter .
+docker run -d -p 80:8080 --restart unless-stopped file-converter
+```
+
+**Google Cloud Run**
+```bash
+gcloud run deploy file-converter --source . --region us-central1 \
+  --allow-unauthenticated --memory 2Gi --timeout 300
+```
+
+**Render / Railway / Fly.io**: connect the GitHub repo and choose the Docker
+runtime; it builds from the `Dockerfile` and listens on `$PORT`.
+(A plain Python/Procfile runtime works too, but without LibreOffice.)
+
+Settings: `PORT` (default 8080 in Docker), `MAX_UPLOAD_MB` (default 50).
+Give it at least 1–2 GB RAM: LibreOffice and large spreadsheets use memory.
+
 ## Test
 
 ```bash
