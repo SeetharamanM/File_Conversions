@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>File Converter</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="card">
+    <header>
+      <h1>File Converter</h1>
+      <p class="sub">Convert Excel, CSV, PDF, Word, Google Docs and Google Sheets into other formats.</p>
+    </header>
+
+    <div class="tabs" role="tablist">
+      <button class="tab active" role="tab" data-tab="upload" aria-selected="true">Upload a file</button>
+      <button class="tab" role="tab" data-tab="google" aria-selected="false">Google Docs / Sheets link</button>
+    </div>
+
+    <section id="panel-upload" class="panel">
+      <label id="drop" class="drop" for="file">
+        <input id="file" type="file"
+               accept=".xlsx,.xlsm,.xls,.csv,.pdf,.docx,.doc,.gdoc,.gsheet">
+        <span class="drop-icon" aria-hidden="true">⬆</span>
+        <span id="drop-text"><strong>Choose a file</strong> or drag it here</span>
+        <span class="hint">.xlsx .xls .csv .pdf .docx .doc .gdoc .gsheet · up to {{ max_mb }} MB</span>
+      </label>
+    </section>
+
+    <section id="panel-google" class="panel" hidden>
+      <label for="url" class="field-label">Google Docs or Sheets link</label>
+      <input id="url" type="url" placeholder="https://docs.google.com/spreadsheets/d/…">
+      <p class="hint">The file must be shared as <em>Anyone with the link can view</em>.</p>
+    </section>
+
+    <div class="row">
+      <div class="detected">
+        <span class="field-label">From</span>
+        <span id="source-label" class="pill muted">—</span>
+      </div>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="target">
+        <label for="target" class="field-label">To</label>
+        <select id="target" disabled><option>Pick a file first</option></select>
+      </div>
+    </div>
+
+    <button id="convert" class="primary" disabled>Convert</button>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <details class="matrix">
+      <summary>Supported conversions</summary>
+      <table id="matrix"></table>
+      <p class="hint" id="lo-note"></p>
+    </details>
+  </main>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
